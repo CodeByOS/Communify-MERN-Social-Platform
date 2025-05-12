@@ -7,7 +7,10 @@ const connectDB = require("./config/db");
 const app = express();
 
 //* Middlewares
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
 app.use(bodyParser.json());
 
 //* Define Routes
