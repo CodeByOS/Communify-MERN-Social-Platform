@@ -118,8 +118,58 @@ const logout = async (req, res) => {
 }
 
 
+//! Onboard Controller
+const onboard = async (req, res) => {
+    // console.log(req.user); //* req.user from the protected route
+    try {
+        const userId = req.user._id;
+        const { fullName, bio, nativeLanguage, learningLanguage, location } = req.body;
+
+        if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location) {
+            return res.status(400).json({ 
+                message: "All fields are required..!",
+                missingFields: [
+                    !fullName && "fullName",
+                    !bio && "bio",
+                    !nativeLanguage && "nativeLanguage",
+                    !learningLanguage && "learningLanguage",
+                    !location && "location",
+                ].filter(Boolean), //* Returns only true values
+            })
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(userId, {
+            ...req.body,
+            isOnboarded: true,
+        }, { new: true }) //* Returns updated User..
+
+        if(!updatedUser) {
+            return res.status(404).json({ message: "User Not Found..!" })
+        }
+
+        //*UPDATE THE USER INFO IN STREAM
+        try {
+            await upsertStreamUser({
+                id: updatedUser._id.toString(),
+                name: updatedUser.fullName,
+                image: updatedUser.profilePic,
+            })
+
+        console.log(`Stream user updated after onboarding for ${updatedUser.fullName}`);
+        } catch (err) {
+            console.log("Error updating Stream user during onboarding..!", streamError.message);
+        }
+
+        res.status(200).json({ success: true, user: updatedUser });
+    } catch (err) {
+        console.log("Onboarding Error..!", err);
+        res.status(500).json({ message: "Internal Server Error..!" });
+    }
+}
+
 module.exports = {
     signup,
     login,
-    logout
+    logout,
+    onboard
 }
