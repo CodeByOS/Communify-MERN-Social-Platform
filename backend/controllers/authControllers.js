@@ -1,7 +1,8 @@
+const upsertStreamUser = require("../config/stream");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-
+//! Signup Controller
 const signup = async (req, res) => {
     const { fullName, email, password } = req.body;
     try {
@@ -36,9 +37,21 @@ const signup = async (req, res) => {
             fullName,
             password,
             profilePic: randomAvatar,
-        });
+        })
 
-        //TODO: CREATE THE USER IN STREAM
+        try {
+            // Attempt to create or update a Stream user with provided user details
+            await upsertStreamUser({
+                id: newUser._id.toString(),
+                name: newUser.fullName,
+                image: newUser.profilePic || "",
+            })
+
+            console.log(`Stream User created for ${newUser.fullName}`);
+        } catch (err) {
+            console.log("Error creating Stream User..!", err);
+        }
+        
 
         if(!newUser) {
             return res.status(400).json({ message: "Failed to Create User..!" });
@@ -58,27 +71,50 @@ const signup = async (req, res) => {
         res.status(201).json({ success: true, user: newUser });
 
     } catch (err) {
-        console.log("Error in SignUp Controller..!", err);
+        console.log("Error in SignUp Controller..!", err.message);
         res.status(500).json({ message: "Internal Server Error..!" });
     }
 }
 
-
+//! Login Controller
 const login = async (req, res) => {
     try {
-        
+        const { email, password } = req.body;
+        if(!email || !password) {
+            return res.status(400).json({ message: "All fields are required..!" });
+        }
+
+        const user = await User.findOne({ email });
+        if(!user) {
+            return res.status(401).json({ message: "Invalid Credentials..!" });
+        }
+
+        const isPasswordCorrect = await user.matchPassword(password);
+        if(!isPasswordCorrect) return res.status(401).json({ message: "Invalid Credentials..!" });
+
+        //* GENERATE JWT TOKEN
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn : "7d" });
+
+        //* Add token to the cookie
+        res.cookie("jwt", token, { 
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            httpOnly: true, //prevent XSS attacks
+            sameSite: "strict", //prevent CSRF attacks
+            secure: process.env.NODE_ENV === "production", //prevent HTTP requests
+        })
+
+        res.status(200).json({ success: true, user });
+
     } catch (err) {
-        
+        console.log("Error in Login Controller..!", err.message);
+        res.status(500).json({ message: "Internal Server Error..!" });
     }
 }
 
-
+//! Logout Controller
 const logout = async (req, res) => {
-    try {
-        
-    } catch (err) {
-        
-    }
+    res.clearCookie("jwt");
+    res.status(200).json({ success: true, message: "Logout Successful" });
 }
 
 
