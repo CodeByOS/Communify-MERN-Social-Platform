@@ -5,7 +5,7 @@ const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 
 const authRoutes = require("./routes/authRoutes");
-// const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/userRoutes");
 // const chatRoutes = require("./routes/chatRoutes");
 
 
@@ -21,7 +21,7 @@ app.use(cookieParser()); //* Access to cookies
 
 //* Define Routes
 app.use("/api/auth", authRoutes);
-// app.use("/api/users", userRoutes);
+app.use("/api/users", userRoutes);
 // app.use("/api/chat", chatRoutes);
 
 //* Start the MongoDB connection and then the server
