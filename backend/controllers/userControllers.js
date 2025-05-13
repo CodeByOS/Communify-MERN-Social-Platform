@@ -32,7 +32,7 @@ const getMyFriends = async (req, res) => {
                                 //* populate Method : replace a referenced document’s ID with the actual document data
         res.status(200).json(user.friends);
     } catch (err) {
-        console.error("Error in getMyFriends controller", error.message);
+        console.error("Error in getMyFriends controller", err.message);
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
@@ -79,7 +79,7 @@ const sendFriendRequest = async (req, res) => {
         });
 
     } catch (err) {
-        console.error("Error in sendFriendRequest controller..!", err);
+        console.error("Error in sendFriendRequest controller..!", err.message);
         return res.status(500).json({ message: "Internal Server Error..!" });
     }
 }
@@ -88,16 +88,16 @@ const sendFriendRequest = async (req, res) => {
 const acceptFriendRequest = async (req, res) => {
     try {
         const myId = req.user.id;
-        const { id: senderId } = req.params;
+        const { id: recipientId } = req.params;
 
         // Prevent accepting a request from yourself
-        if (myId === senderId) {
+        if (myId === recipientId) {
             return res.status(400).json({ message: "You can't accept a friend request from yourself..!" });
         }
 
         // Check if the friend request exists
         const friendRequest = await FriendRequest.findOne({
-            sender: senderId,
+            sender: recipientId,
             recipient: myId
         });
 
@@ -107,14 +107,14 @@ const acceptFriendRequest = async (req, res) => {
 
         // Check if already friends
         const user = await User.findById(myId);
-        if (user.friends.includes(senderId)) {
+        if (user.friends.includes(recipientId)) {
             await FriendRequest.findByIdAndDelete(friendRequest._id); // Clean up
             return res.status(400).json({ message: "You are already friends..!" });
         }
 
         // Add each other as friends
-        await User.findByIdAndUpdate(myId, { $addToSet: { friends: senderId } });
-        await User.findByIdAndUpdate(senderId, { $addToSet: { friends: myId } });
+        await User.findByIdAndUpdate(myId, { $addToSet: { friends: recipientId } });
+        await User.findByIdAndUpdate(recipientId, { $addToSet: { friends: myId } });
 
         // Remove the friend request
         await FriendRequest.findByIdAndDelete(friendRequest._id);
@@ -122,7 +122,43 @@ const acceptFriendRequest = async (req, res) => {
         res.status(200).json({ message: "Friend request accepted..!" });
 
     } catch (err) {
-        console.error("Error accepting friend request..!", err);
+        console.error("Error accepting friend request..!", err.message);
+        res.status(500).json({ message: "Internal Server Error..!" });
+    }
+}
+
+//* GET FRIEND REQUESTS
+const getFriendRequests = async (req, res) => {
+    try {
+        const incomingRequests = await FriendRequest.find({ recipient: req.user.id, status: "pending" })
+            .populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
+        
+        const acceptedRequests = await FriendRequest.find({ recipient: req.user.id, status: "accepted" })
+            .populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
+
+        res.status(200).json({
+            incomingRequests,
+            acceptedRequests
+        });
+
+    } catch (err) {
+        console.log("Error in getFriendRequests controller..!", err.message);
+        res.status(500).json({ message: "Internal Server Error..!" });
+    }
+}
+
+//* GET OUTGOING FRIEND REQUESTS
+const getOutgoingFriendRequests = async (req, res) => {
+    try {
+        const outgoingRequests = await FriendRequest.find({
+            sender: req.user.id,
+            status: "pending",
+        })
+        .populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
+
+    res.status(200).json(outgoingRequests);
+    } catch (err) {
+        console.error("Error in getOutgoingFriendRequests controller..!", err.message);
         res.status(500).json({ message: "Internal Server Error..!" });
     }
 }
@@ -133,4 +169,6 @@ module.exports = {
     getMyFriends,
     sendFriendRequest,
     acceptFriendRequest,
+    getFriendRequests,
+    getOutgoingFriendRequests
 }
