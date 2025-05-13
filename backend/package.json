@@ -7,7 +7,7 @@
     "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "CodeByOS",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
