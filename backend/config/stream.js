@@ -8,7 +8,6 @@ if(!apiKey || !apiSecret) {
     console.error("Stream API Key or Secret is Missing..!");
 }
 
-
 const streamClient = StreamChat.getInstance(apiKey, apiSecret); //* Create stream instance
 
 //* Function for create or update stream user..
@@ -17,12 +16,24 @@ const upsertStreamUser = async (userData) => {
         await streamClient.upsertUsers([userData]); // create user and if user exists --> Update it
         return userData
     } catch (err) {
-        console.error("Error Creating / Updating Stream User:", err)
+        console.error("Error Creating / Updating Stream User:", err.message)
     }
 };
 
-// TODO: DO IT LATER..
-// const generateStreamToken = (userId) => {}
+//* Function for generating stream token for the user
+//* This token is used to authenticate the user with Stream Chat
+const generateStreamToken = async (userId) => {
+    try {
+        const userIdStr = userId.toString(); // Convert userId to string
+        const token = streamClient.createToken(userIdStr); // Generate token for the user
+        return token;
+    } catch (err) {
+        console.error("Error Generating Stream Token:", err.message);
+    }
+}
 
 
-module.exports = upsertStreamUser;
+module.exports = {
+    upsertStreamUser,
+    generateStreamToken
+};
