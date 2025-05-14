@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { MessagesSquare } from "lucide-react"
 import { Link } from "react-router"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { signupFn } from "../lib/api"
+import useSignUp from "../hooks/useSignUp"
+
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
@@ -11,17 +11,11 @@ const SignUpPage = () => {
     password: '',
   })
 
-  const queryClient = useQueryClient();
-
-  const { mutate, isPending, error } = useMutation({
-    mutationFn: signupFn,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-  });
+  const { isPending, error, signupMutation } = useSignUp();
 
   const handleSignup = (e) => {
     e.preventDefault();
-    mutate(signupData); // Call the signup function with the form data
-    // setSignupData({ name: '', email: '', password: '' }); // Reset form data
+    signupMutation(signupData); // Call the signup function with the form data
   }
 
   return (
