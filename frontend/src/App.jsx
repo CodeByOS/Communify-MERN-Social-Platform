@@ -6,11 +6,11 @@ import LoginPage from "./pages/LoginPage.jsx";
 import NotificationsPage from "./pages/NotificationsPage.jsx";
 import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
-import OnboargingPage from "./pages/OnboardingPage.jsx"
 
 import { Toaster } from "react-hot-toast"
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
+import OnboardingPage from "./pages/OnboardingPage.jsx";
 
 
 const App = () => {
@@ -34,20 +34,41 @@ const App = () => {
           <Navigate to={ !isAuthenticated ? "/login" : "/onboarding" } />
         ) } />
         
-        
-        <Route path="/signup" element={!isAuthenticated ? <SignUpPage /> : <Navigate to="/" /> } />
-        <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/" /> } />
+
+        <Route
+          path="/signup"
+          element={
+            !isAuthenticated ? <SignUpPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+          }
+        />
+
+
+        <Route
+          path="/login"
+          element={
+            !isAuthenticated ? <LoginPage /> : <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+          }
+        />
 
         <Route path="/notifications" element={isAuthenticated ? <NotificationsPage /> : <Navigate to="/login" /> } />
         <Route path="/call" element={isAuthenticated ? <CallPage /> : <Navigate to="/login" />} />
         <Route path="/chat" element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" /> } />
         
         {/* Onboarding page */}
-        <Route path="/onboarding" element={isAuthenticated ? (
-          isOnboarded ? <Navigate to="/" /> : <OnboargingPage />
-        ) : (
-          <Navigate to="/login" />
-        ) } />
+        <Route
+          path="/onboarding"
+          element={
+            isAuthenticated ? (
+              !isOnboarded ? (
+                <OnboardingPage />
+              ) : (
+                <Navigate to="/" />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
         
       </Routes>
 
