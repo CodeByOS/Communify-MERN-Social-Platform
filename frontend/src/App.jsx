@@ -20,7 +20,7 @@ const App = () => {
       const res = await axiosInstance("/auth");
       return res.data;
     },
-    retry: false, //* Auth Check (retry: true (default) -> trying to sent req to server many times )
+    retry: false, //* Disable retrying on failure (e.g., for auth checks)
   })
 
   console.log(data);
