@@ -15,12 +15,13 @@ import { axiosInstance } from "./lib/axios.js";
 const App = () => {
   //* Tanstack query
   //* get => useQuery
-  const { data } = useQuery({ queryKey: ["todos"],
+  const { data } = useQuery({ queryKey: ["users"],
     queryFn: async() => {
-      const res = await axiosInstance("http://localhost:9000/api/auth");
+      const res = await axiosInstance("/api/auth");
       const data = await res.json();
       return data;
-    }
+    },
+    retry: false, //* Auth Check (retry: true (default) -> trying to sent req to server many times )
   })
 
   console.log(data);
