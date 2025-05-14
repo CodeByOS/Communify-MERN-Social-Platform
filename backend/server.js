@@ -14,7 +14,7 @@ const app = express();
 //* Middlewares
 app.use(cors({
     origin: "http://localhost:5173",
-    credentials: true,
+    credentials: true, //* Allow frontEnd to send Cookies
 }))
 app.use(express.json());
 app.use(cookieParser()); //* Access to cookies

@@ -10,19 +10,21 @@ import OnboargingPage from "./pages/OnboardingPage.jsx"
 
 import { Toaster } from "react-hot-toast"
 import { useQuery } from "@tanstack/react-query";
+import { axiosInstance } from "./lib/axios.js";
 
 const App = () => {
   //* Tanstack query
   //* get => useQuery
-  const { data } = useQuery({ queryKey: "todos",
+  const { data } = useQuery({ queryKey: ["todos"],
     queryFn: async() => {
-      const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+      const res = await axiosInstance("http://localhost:9000/api/auth");
       const data = await res.json();
       return data;
     }
   })
 
   console.log(data);
+
   return (
     <div className="h-screen" data-theme="night">
 
