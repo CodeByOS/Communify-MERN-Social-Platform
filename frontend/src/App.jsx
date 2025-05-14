@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 
 import HomePage from "./pages/HomePage.jsx";
 import SignUpPage from "./pages/SignUpPage.jsx";
@@ -15,28 +15,29 @@ import { axiosInstance } from "./lib/axios.js";
 const App = () => {
   //* Tanstack query
   //* get => useQuery
-  const { data } = useQuery({ queryKey: ["users"],
+  const { data: authData } = useQuery({ 
+    queryKey: ["authUser"],
     queryFn: async() => {
-      const res = await axiosInstance("/auth");
+      const res = await axiosInstance("/auth/me");
       return res.data;
     },
     retry: false, //* Disable retrying on failure (e.g., for auth checks)
   })
 
-  console.log(data);
+  const authUser = authData?.user
 
   return (
     <div className="h-screen" data-theme="night">
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" /> } />
+        <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/" /> } />
+        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" /> } />
 
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/call" element={<CallPage />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/onboarding" element={<OnboargingPage />} />
+        <Route path="/notifications" element={authUser ? <NotificationsPage /> : <Navigate to="/login" /> } />
+        <Route path="/call" element={authUser ? <CallPage /> : <Navigate to="/login" />} />
+        <Route path="/chat" element={authUser ? <ChatPage /> : <Navigate to="/login" /> } />
+        <Route path="/onboarding" element={authUser ? <OnboargingPage /> : <Navigate to="/login" /> } />
         
       </Routes>
 
