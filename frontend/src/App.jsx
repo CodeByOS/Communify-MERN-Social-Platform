@@ -11,11 +11,15 @@ import OnboargingPage from "./pages/OnboardingPage.jsx"
 import { Toaster } from "react-hot-toast"
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "./lib/axios.js";
+import PageLoader from "./components/PageLoader.jsx";
 
 const App = () => {
   //* Tanstack query
   //* get => useQuery
-  const { data: authData } = useQuery({ 
+  const { 
+    data: authData,
+    isLoading,
+  } = useQuery({ 
     queryKey: ["authUser"],
     queryFn: async() => {
       const res = await axiosInstance("/auth/me");
@@ -25,6 +29,9 @@ const App = () => {
   })
 
   const authUser = authData?.user
+
+  //* Loading spinner
+  if(isLoading) return <PageLoader />
 
   return (
     <div className="h-screen" data-theme="night">
