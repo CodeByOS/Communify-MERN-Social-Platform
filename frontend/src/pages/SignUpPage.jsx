@@ -96,7 +96,7 @@ const SignUpPage = () => {
                     </label>
                     <input
                       type="password"
-                      placeholder="********"
+                      placeholder="Password"
                       className="input input-bordered w-full"
                       value={signupData.password}
                       onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
