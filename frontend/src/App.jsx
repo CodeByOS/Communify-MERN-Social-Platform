@@ -8,15 +8,24 @@ import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboargingPage from "./pages/OnboardingPage.jsx"
 
-import toast, { Toaster } from "react-hot-toast"
-
-
+import { Toaster } from "react-hot-toast"
+import { useQuery } from "@tanstack/react-query";
 
 const App = () => {
+  //* Tanstack query
+  //* get => useQuery
+  const { data } = useQuery({ queryKey: "todos",
+    queryFn: async() => {
+      const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+      const data = await res.json();
+      return data;
+    }
+  })
+
+  console.log(data);
   return (
     <div className="h-screen" data-theme="night">
 
-      <button onClick={() => toast.success("GOOD") }>Hello World</button>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignUpPage />} />
