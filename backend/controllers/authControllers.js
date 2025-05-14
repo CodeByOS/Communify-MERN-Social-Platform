@@ -1,4 +1,4 @@
-const upsertStreamUser = require("../config/stream");
+const { upsertStreamUser } = require("../config/stream");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
