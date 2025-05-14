@@ -1,13 +1,7 @@
 const App = () => {
   return (
     <div className="h-screen p-5 text-white" data-theme="nigth">
-      <button className="btn">Button</button>
-      <button className="btn btn-neutral">Neutral</button>
-      <button className="btn btn-primary">Primary</button>
-      <button className="btn btn-secondary">Secondary</button>
-      <button className="btn btn-accent">Accent</button>
-      <button className="btn btn-ghost">Ghost</button>
-      <button className="btn btn-link">Link</button>
+      Hello World
     </div>
   )
 }
