@@ -17,9 +17,8 @@ const App = () => {
   //* get => useQuery
   const { data } = useQuery({ queryKey: ["users"],
     queryFn: async() => {
-      const res = await axiosInstance("/api/auth");
-      const data = await res.json();
-      return data;
+      const res = await axiosInstance("/auth");
+      return res.data;
     },
     retry: false, //* Auth Check (retry: true (default) -> trying to sent req to server many times )
   })
