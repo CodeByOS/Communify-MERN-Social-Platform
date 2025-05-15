@@ -6,9 +6,9 @@ import useSignUp from "../hooks/useSignUp"
 
 const SignUpPage = () => {
   const [signupData, setSignupData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   })
 
   const { isPending, error, signupMutation } = useSignUp();
