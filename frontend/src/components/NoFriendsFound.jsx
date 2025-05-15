@@ -1,4 +1,3 @@
-import { UserPlus } from "lucide-react";
 
 const NoFriendsFound = () => {
     return (
