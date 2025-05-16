@@ -1,6 +1,6 @@
 import { Loader } from "lucide-react";
 
-function ChatLoader() {
+const ChatLoader = () => {
     return (
         <div className="h-screen flex flex-col items-center justify-center p-4">
             <Loader className="animate-spin size-10 text-primary" />

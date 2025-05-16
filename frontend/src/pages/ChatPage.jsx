@@ -42,8 +42,8 @@ const ChatPage = () => {
 
       try {
         console.log("Starting Stream Chat...");
-        console.log("Connecting user:", authUser._id);
-        console.log("Token:", tokenData?.token, "Type:", typeof tokenData?.token);
+        // console.log("Connecting user:", authUser._id);
+        // console.log("Token:", tokenData?.token, "Type:", typeof tokenData?.token);
 
         const client = StreamChat.getInstance(STREAM_API_KEY);
 
