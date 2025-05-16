@@ -22,15 +22,16 @@ const upsertStreamUser = async (userData) => {
 
 //* Function for generating stream token for the user
 //* This token is used to authenticate the user with Stream Chat
-const generateStreamToken = async (userId) => {
+const generateStreamToken = (userId) => {
     try {
-        const userIdStr = userId.toString(); // Convert userId to string
-        const token = streamClient.createToken(userIdStr); // Generate token for the user
+        const userIdStr = userId.toString(); 
+        const token = streamClient.createToken(userIdStr);
         return token;
     } catch (err) {
         console.error("Error Generating Stream Token:", err.message);
+        return null;
     }
-}
+};
 
 
 module.exports = {

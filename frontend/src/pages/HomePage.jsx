@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getOutgoingFriendReqs, getRecommendedUsers, getUserFriends, sendFriendRequest } from "../lib/api";
 
 import { Link } from "react-router";
-import { CircleCheckBig, MapPin, UserPlus, Users } from "lucide-react";
+import { CheckCircle, CircleCheckBig, MapPin, UserPlus, Users } from "lucide-react";
 import NoFriendsFound from "../components/NoFriendsFound";
 import FriendCard, { getLanguageFlag } from "../components/FriendCard";
 
@@ -85,7 +85,7 @@ const HomePage = () => {
           <NoFriendsFound />
         ) : (
           // Display list of friend cards
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {friends.map((friend) => (
               <FriendCard key={friend._id} friend={friend} />
             ))}
@@ -172,20 +172,20 @@ const HomePage = () => {
 
                       {/* Send Friend Request Button */}
                       <button
-                        className={`btn w-full mt-3 ${
+                        className={`btn w-full mt-2 ${
                           hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-                        }`}
+                        } `}
                         onClick={() => sendRequestMutation(user._id)}
                         disabled={hasRequestBeenSent || isPending}
                       >
                         {hasRequestBeenSent ? (
                           <>
-                            <CircleCheckBig className="size-5 mr-2" />
+                            <CheckCircle className="size-4 mr-2" />
                             Request Sent
                           </>
                         ) : (
                           <>
-                            <UserPlus className="size-5 mr-2" />
+                            <UserPlus className="size-4 mr-2" />
                             Send Friend Request
                           </>
                         )}
