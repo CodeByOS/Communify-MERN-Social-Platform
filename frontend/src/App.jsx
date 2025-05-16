@@ -14,6 +14,7 @@ import useAuthUser from "./hooks/useAuthUser.js";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
+import NotFoundPage from "./pages/NotFoundPage.jsx";
 
 
 const App = () => {
@@ -126,6 +127,12 @@ const App = () => {
               <Navigate to="/login" />
             )
           }
+        />
+
+        {/* NOT FOUND ROUTE */}
+        <Route
+          path="*"
+          element= { <NotFoundPage />}
         />
         
       </Routes>
