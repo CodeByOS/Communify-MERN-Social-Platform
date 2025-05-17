@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -10,6 +11,8 @@ const chatRoutes = require("./routes/chatRoutes");
 
 
 const app = express();
+
+// const __dirname = path.resolve(); //* Get the current directory
 
 //* Middlewares
 app.use(cors({
@@ -23,6 +26,13 @@ app.use(cookieParser()); //* Access to cookies
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
+
+if(process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../frontend/dist")));
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    });
+}
 
 //* Start the MongoDB connection and then the server
 connectDB()
