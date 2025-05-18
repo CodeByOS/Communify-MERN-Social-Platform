@@ -96,7 +96,7 @@ const ChatPage = () => {
   if (loading || !chatClient || !channel) return <ChatLoader />;
 
   return (
-    <div className="h-[93vh]">
+    <div className="h-[93vh] mx-auto">
       <Chat client={chatClient}>
         <Channel channel={channel}>
           <div className="w-full relative">
