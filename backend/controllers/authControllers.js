@@ -2,6 +2,9 @@ const { upsertStreamUser } = require("../config/stream");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
+const sendEmail = require("../config/sendEmail");
+
+
 //! Signup Controller
 const signup = async (req, res) => {
     const { fullName, email, password } = req.body;
@@ -56,6 +59,15 @@ const signup = async (req, res) => {
         if(!newUser) {
             return res.status(400).json({ message: "Failed to Create User..!" });
         }
+
+        //* Send Verification Email
+        // ✅ Send Welcome Email
+        await sendEmail({
+            to: newUser.email,
+            subject: "Welcome to Communify!",
+            text: `Hi ${newUser.fullName},\n\nWelcome to Communify — we're excited to have you on board!\n\nStart chatting and connect with others now. 😄\n\n– The Communify Team`,
+        });
+
 
         //* GENERATE JWT TOKEN
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET_KEY, { expiresIn : "7d" });
