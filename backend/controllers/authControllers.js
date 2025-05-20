@@ -68,7 +68,7 @@ const signup = async (req, res) => {
             text: `Hi ${newUser.fullName}, Welcome to Communify!`,
             html:`
                 <div style="font-family: Arial, sans-serif; line-height: 1.6;">
-                <a href='https://postimages.org/' target='_blank'><img src='https://i.postimg.cc/Mvv9P6h0/communfiy.png' border='0' alt='communfiy'/></a>
+                <a href='https://postimages.org/' target='_blank'><img src='/CommunifyLogo.png' border='0' alt='communfiy'/></a>
                 <h2>Hi ${newUser.fullName},</h2>
                 <h3>Welcome to <strong>Communify</strong> — we're excited to have you on board!</h3>
                 <h3>Start chatting and connecting with others right now 🚀</h3>
