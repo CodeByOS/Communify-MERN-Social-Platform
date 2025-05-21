@@ -3,7 +3,7 @@ MERN Stack Social App Featuring Live Video Calls &amp; Chat
 
 A modern, full-featured social networking platform built with the **MERN** stack. "Communify" brings together real-time messaging, video calling, JWT-based authentication, and a rich UI powered by **DaisyUI** themes.
 
-![Communify Banner](/CommunifyLogo.png)
+
 
 ## 🛠️ Tech Stack
 
