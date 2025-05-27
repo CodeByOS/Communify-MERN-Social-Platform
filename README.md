@@ -7,7 +7,8 @@ Communify is a modern, full-featured social networking platform built with the M
 ---
 
 ## 🔗 Live Demo
-> 🌐 Coming soon / [https://communify-app.up.railway.app/]
+
+🚀 **Check it out here:** [communify-app.up.railway.app](https://communify-app.up.railway.app)
 
 ---
 
