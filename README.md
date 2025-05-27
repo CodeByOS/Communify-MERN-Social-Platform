@@ -66,3 +66,16 @@ Communify is a modern, full-featured social networking platform built with the M
 
 ### 📹 Audio & Video Call Screen
 ![Audio&Video Call](assets/call.png)
+
+## 📬 Contact
+
+Have questions, feedback, or want to collaborate? Feel free to reach out!
+
+- ✉️ Email: [saidi.oussama2004@gmail.com](saidi.oussama2004@gmail.com)
+- 💼 LinkedIn: [Oussama SAIDI](https://www.linkedin.com/in/oussama-saidi-/)
+- 🐙 GitHub: [@CodeByOS](https://github.com/CodeByOS)
+
+---
+
+> Made with ❤️ by [Oussama SAIDI]
+
