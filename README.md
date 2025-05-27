@@ -57,6 +57,9 @@ Communify is a modern, full-featured social networking platform built with the M
 ### 📝 Signup Page
 ![Signup Page](assets/signup.png)
 
+### 🏠 Home Page
+![Home Page](assets/home.png)
+
 ### 💬 Conversation View
 ![Conversation](assets/conversation.png)
 
