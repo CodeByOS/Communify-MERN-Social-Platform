@@ -1,4 +1,4 @@
-# Communify 🗣️
+# Communify 💬
 
 **A Full-Stack MERN Social Platform with Real-Time Chat & Video Calls**
 
